@@ -24,11 +24,17 @@ abstract class AbstractSort extends Thread {
         System.out.println("Часть исходного массива: " + Arrays.toString(Arrays.copyOfRange(mas, 0, 10)));
     }
 
-    public void sort(int[] array, int start, int end){}
-    public void sort(int[] array){}
+    protected void incrementCompares() {
+        ++compares;
+    }
+    protected void incrementSwaps() {
+        ++swaps;
+    }
+
 
     protected long timer() throws InterruptedException{
         long start, finish;
+
         if(isOneSortParameter == false) {
             start = System.currentTimeMillis();
             sort(mas, 0, mas.length-1);
@@ -44,12 +50,22 @@ abstract class AbstractSort extends Thread {
         return finish - start;
     }
 
-    protected void incrementCompares() {
-        ++compares;
+
+    @Override
+    public void run() {
+        try {
+            System.out.println("Время в параллели: " + timer() + " мс");
+            System.out.println();
+        } catch (InterruptedException e) {
+            e.getMessage();
+            System.out.println("Interrupted exception in run AbstractSort");
+        }
+        System.out.println("Compares: " + getCompares());
+        System.out.println("Swaps: " + getSwaps());
     }
-    protected void incrementSwaps() {
-        ++swaps;
-    }
+
+    public void sort(int[] array, int start, int end){}
+    public void sort(int[] array){}
 
     public int getArrLength() {
         return arrLength;
