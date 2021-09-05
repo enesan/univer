@@ -4,6 +4,7 @@ public class MergeSort extends AbstractSort{
 
     public MergeSort(int arrLength) {
         super(arrLength);
+        setOneSortParameter(false);
     }
 
     @Override
@@ -15,7 +16,7 @@ public class MergeSort extends AbstractSort{
         merge(array, left, mid, right);
     }
 
-    static void merge(int[] array, int left, int mid, int right) {
+     void merge(int[] array, int left, int mid, int right) {
         // вычисляем длину
         int lengthLeft = mid - left + 1;
         int lengthRight = right - mid;
@@ -36,6 +37,7 @@ public class MergeSort extends AbstractSort{
 
         // копируем из leftArray и rightArray обратно в массив
         for (int i = left; i < right + 1; i++) {
+            incrementCompares();
             // если остаются нескопированные элементы в R и L, копируем минимальный
             if (leftIndex < lengthLeft && rightIndex < lengthRight) {
                 if (leftArray[leftIndex] < rightArray[rightIndex]) {
@@ -46,6 +48,7 @@ public class MergeSort extends AbstractSort{
                     array[i] = rightArray[rightIndex];
                     rightIndex++;
                 }
+                incrementSwaps();
             }
             // если все элементы были скопированы из rightArray, скопировать остальные из leftArray
             else if (leftIndex < lengthLeft) {

@@ -2,6 +2,7 @@ package sample;
 
 public class QuickSort extends AbstractSort {
 
+
     public QuickSort(int arrLength) {
         super(arrLength);
         setOneSortParameter(false);
@@ -15,23 +16,28 @@ public class QuickSort extends AbstractSort {
         sort(array, pivot+1, end);
     }
 
-    static int partition(int[] array, int begin, int end) {
+     int partition(int[] array, int begin, int end) {
         int pivot = end;
-
         int counter = begin;
+
         for (int i = begin; i < end; i++) {
+            incrementCompares();
+
             if (array[i] < array[pivot]) {
                 int temp = array[counter];
                 array[counter] = array[i];
                 array[i] = temp;
                 counter++;
+                incrementSwaps();
             }
         }
+
+
         int temp = array[pivot];
         array[pivot] = array[counter];
         array[counter] = temp;
+        incrementSwaps();
 
         return counter;
     }
-
 }

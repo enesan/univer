@@ -11,7 +11,8 @@ abstract class AbstractSort extends Thread {
     private int[] mas;
     private Random rnd = new Random();
     private boolean isOneSortParameter;
-
+    protected long swaps = 0;
+    protected long compares = 0;
 
     public AbstractSort (int arrLength) {
         this.arrLength = arrLength;
@@ -20,24 +21,34 @@ abstract class AbstractSort extends Thread {
         for (int i = 0; i < arrLength; i++) {
             mas[i] = rnd.nextInt(1000);
         }
-        System.out.println("Вызванный из конструктора " + Arrays.toString(mas));
+        System.out.println("Часть исходного массива: " + Arrays.toString(Arrays.copyOfRange(mas, 0, 10)));
     }
 
     public void sort(int[] array, int start, int end){}
     public void sort(int[] array){}
 
-    public long timer(){
-        long start;
-
+    protected long timer() throws InterruptedException{
+        long start, finish;
         if(isOneSortParameter == false) {
             start = System.currentTimeMillis();
             sort(mas, 0, mas.length-1);
-            return System.currentTimeMillis() - start;
+            finish = System.currentTimeMillis();
+            System.out.println("Часть отсортированного массива: " + Arrays.toString(Arrays.copyOfRange(mas, 0, 10)));
+            return finish - start;
         }
 
         start = System.currentTimeMillis();
         sort(mas);
-        return System.currentTimeMillis() - start;
+        finish = System.currentTimeMillis();
+        System.out.println("Часть отсортированного массива: " + Arrays.toString(Arrays.copyOfRange(mas, 0, 10)));
+        return finish - start;
+    }
+
+    protected void incrementCompares() {
+        ++compares;
+    }
+    protected void incrementSwaps() {
+        ++swaps;
     }
 
     public int getArrLength() {
@@ -63,5 +74,17 @@ abstract class AbstractSort extends Thread {
     }
     public void setOneSortParameter(boolean oneParameter) {
         isOneSortParameter = oneParameter;
+    }
+    public long getSwaps() {
+        return swaps;
+    }
+    public void setSwaps(long swaps) {
+        this.swaps = swaps;
+    }
+    public long getCompares() {
+        return compares;
+    }
+    public void setCompares(long compares) {
+        this.compares = compares;
     }
 }
